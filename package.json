@@ -11,6 +11,7 @@
     "pretty": "npx prettier --write .",
     "preview": "vite preview",
     "prepare": "husky install",
+    "lint-staged": "lint-staged",
     "deploy": "gh-pages -d ./dist -e ./"
   },
   "dependencies": {
@@ -29,13 +30,21 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "gh-pages": "^6.0.0",
-    "husky": "^8.0.0",
+    "husky": "^8.0.3",
     "lint-staged": "^15.0.2",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   },
   "lint-staged": {
-    "src//*.{ts,tsx,css,scss}": "npx prettier --write",
-    "src//*.{ts,tsx}": "eslint --fix"
+    "**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
