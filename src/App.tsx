@@ -41,7 +41,6 @@ class App extends Component<NonNullable<unknown>, AppState> {
     const data = await response.json();
     this.setState({ beers: data });
     localStorage.setItem('searchTerm', this.state.searchTerm);
-    console.log(data)
     this.setState({ isLoading: false })
   };
 
