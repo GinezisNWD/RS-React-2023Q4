@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './App.css'
 
 interface Beer {
   name: string;
@@ -17,7 +18,7 @@ class App extends Component<NonNullable<unknown>, AppState> {
     super(props);
     this.state = {
       searchTerm: localStorage.getItem('searchTerm') ?? '',
-      beers: localStorage.getItem('beers') ? JSON.parse(localStorage.getItem('beers')!) : [],
+      beers: [],
       isLoading: false
     };
   }
@@ -26,12 +27,12 @@ class App extends Component<NonNullable<unknown>, AppState> {
     const savedSearchTerm = localStorage.getItem('searchTerm');
     if (savedSearchTerm) {
       this.setState({ searchTerm: savedSearchTerm });
-      return
     }
     this.fetchBeers();
   }
 
   fetchBeers = async () => {
+    this.setState({ isLoading: true })
     let url = 'https://api.punkapi.com/v2/beers?page=1';
     if (this.state.searchTerm) {
       url += `&beer_name=${this.state.searchTerm.trim()}`;
@@ -40,7 +41,8 @@ class App extends Component<NonNullable<unknown>, AppState> {
     const data = await response.json();
     this.setState({ beers: data });
     localStorage.setItem('searchTerm', this.state.searchTerm);
-    localStorage.setItem('beers', JSON.stringify(data))
+    console.log(data)
+    this.setState({ isLoading: false })
   };
 
   handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -53,10 +55,6 @@ class App extends Component<NonNullable<unknown>, AppState> {
     });
   };
 
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    localStorage.setItem('searchTerm', event.target.value)
-  }
-
   render() {
     return (
       <>
@@ -66,7 +64,6 @@ class App extends Component<NonNullable<unknown>, AppState> {
               type="text"
               name="search"
               defaultValue={this.state.searchTerm}
-              onChange={this.handleChange}
             />
             <button type="submit">Search</button>
           </form>
