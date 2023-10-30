@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css'
+import './App.css';
 
 interface Beer {
   name: string;
@@ -10,7 +10,7 @@ interface Beer {
 interface AppState {
   searchTerm: string;
   beers: Beer[];
-  isLoading: boolean
+  isLoading: boolean;
 }
 
 class App extends Component<NonNullable<unknown>, AppState> {
@@ -19,7 +19,7 @@ class App extends Component<NonNullable<unknown>, AppState> {
     this.state = {
       searchTerm: localStorage.getItem('searchTerm') ?? '',
       beers: [],
-      isLoading: false
+      isLoading: false,
     };
   }
 
@@ -32,7 +32,7 @@ class App extends Component<NonNullable<unknown>, AppState> {
   }
 
   fetchBeers = async () => {
-    this.setState({ isLoading: true })
+    this.setState({ isLoading: true });
     let url = 'https://api.punkapi.com/v2/beers?page=1';
     if (this.state.searchTerm) {
       url += `&beer_name=${this.state.searchTerm.trim()}`;
@@ -41,7 +41,7 @@ class App extends Component<NonNullable<unknown>, AppState> {
     const data = await response.json();
     this.setState({ beers: data });
     localStorage.setItem('searchTerm', this.state.searchTerm);
-    this.setState({ isLoading: false })
+    this.setState({ isLoading: false });
   };
 
   handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
@@ -57,8 +57,8 @@ class App extends Component<NonNullable<unknown>, AppState> {
   render() {
     return (
       <>
-        <div className='search'>
-          <form className='search__form' onSubmit={this.handleSearch}>
+        <div className="search">
+          <form className="search__form" onSubmit={this.handleSearch}>
             <input
               type="text"
               name="search"
@@ -68,12 +68,16 @@ class App extends Component<NonNullable<unknown>, AppState> {
           </form>
         </div>
         {this.state.isLoading && <h2>Loading...</h2>}
-        <div className='products'>
+        <div className="products">
           {this.state.beers.map((beer) => (
-            <div className='products__item' key={beer.name}>
+            <div className="products__item" key={beer.name}>
               <h3>{beer.name}</h3>
-              <img className='products__img' src={beer.image_url} alt={beer.name} />
-              <p className='products__desc'>{beer.description}</p>
+              <img
+                className="products__img"
+                src={beer.image_url}
+                alt={beer.name}
+              />
+              <p className="products__desc">{beer.description}</p>
             </div>
           ))}
         </div>
