@@ -9,6 +9,7 @@ interface Beer {
 interface AppState {
   searchTerm: string;
   beers: Beer[];
+  isLoading: boolean
 }
 
 class App extends Component<NonNullable<unknown>, AppState> {
@@ -16,7 +17,8 @@ class App extends Component<NonNullable<unknown>, AppState> {
     super(props);
     this.state = {
       searchTerm: localStorage.getItem('searchTerm') ?? '',
-      beers: localStorage.getItem('beers') ? JSON.parse(localStorage.getItem('beers')!) : []
+      beers: localStorage.getItem('beers') ? JSON.parse(localStorage.getItem('beers')!) : [],
+      isLoading: false
     };
   }
 
@@ -69,6 +71,7 @@ class App extends Component<NonNullable<unknown>, AppState> {
             <button type="submit">Search</button>
           </form>
         </div>
+        {this.state.isLoading && <h2>Loading...</h2>}
         <div className='products'>
           {this.state.beers.map((beer) => (
             <div className='products__item' key={beer.name}>
