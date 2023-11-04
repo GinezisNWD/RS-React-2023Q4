@@ -1,89 +1,55 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import { Loader } from './components/Loader/Loader';
+import { Products } from './components/Products/Products';
+import { Search } from './components/Search/Search';
+import { iProduct } from './components/Product/Product';
 
-interface Beer {
-  name: string;
-  description: string;
-  image_url: string;
-}
+function App() {
+  const [searchTerm, setSearchTerm] = useState<null | string>(null);
+  const [products, setProducts] = useState<iProduct[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-interface AppState {
-  searchTerm: string;
-  beers: Beer[];
-  isLoading: boolean;
-}
-
-class App extends Component<NonNullable<unknown>, AppState> {
-  constructor(props: NonNullable<unknown>) {
-    super(props);
-    this.state = {
-      searchTerm: localStorage.getItem('searchTerm') ?? '',
-      beers: [],
-      isLoading: false,
-    };
-  }
-
-  componentDidMount() {
-    const savedSearchTerm = localStorage.getItem('searchTerm');
-    if (savedSearchTerm) {
-      this.setState({ searchTerm: savedSearchTerm });
+  useEffect(() => {
+    if (searchTerm === null) {
+      const savedSearchTerm = localStorage.getItem('searchTerm');
+      setSearchTerm(savedSearchTerm || '');
+      return;
     }
-    this.fetchBeers();
-  }
+    fetchProducts();
+  }, [searchTerm]);
 
-  fetchBeers = async () => {
-    this.setState({ isLoading: true });
-    let url = 'https://api.punkapi.com/v2/beers?page=1';
-    if (this.state.searchTerm) {
-      url += `&beer_name=${this.state.searchTerm.trim()}`;
+  async function fetchProducts() {
+    setIsLoading(true);
+    let url = 'https://api.punkapi.com/v2/beers?page=1&per_page=25';
+    if (searchTerm) {
+      url = `https://api.punkapi.com/v2/beers?&beer_name=${searchTerm}`;
     }
     const response = await fetch(url);
     const data = await response.json();
-    this.setState({ beers: data });
-    localStorage.setItem('searchTerm', this.state.searchTerm);
-    this.setState({ isLoading: false });
-  };
+    setProducts(data);
+    setIsLoading(false);
+  }
 
-  handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+  function handleSearch(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
     const formData = new FormData(form);
     const newSearchTerm = formData.get('search') as string;
-    this.setState({ searchTerm: newSearchTerm.trim() }, () => {
-      this.fetchBeers();
-    });
-  };
-
-  render() {
-    return (
-      <>
-        <div className="search">
-          <form className="search__form" onSubmit={this.handleSearch}>
-            <input
-              type="text"
-              name="search"
-              defaultValue={this.state.searchTerm}
-            />
-            <button type="submit">Search</button>
-          </form>
-        </div>
-        {this.state.isLoading && <h2>Loading...</h2>}
-        <div className="products">
-          {this.state.beers.map((beer) => (
-            <div className="products__item" key={beer.name}>
-              <h3>{beer.name}</h3>
-              <img
-                className="products__img"
-                src={beer.image_url}
-                alt={beer.name}
-              />
-              <p className="products__desc">{beer.description}</p>
-            </div>
-          ))}
-        </div>
-      </>
-    );
+    setSearchTerm(newSearchTerm.trim());
+    localStorage.setItem('searchTerm', newSearchTerm);
   }
+
+  return (
+    <>
+      <Search
+        onSumbmit={handleSearch}
+        searchTerm={searchTerm as string}
+      ></Search>
+      {isLoading && <Loader></Loader>}
+      <Products products={products}></Products>
+    </>
+  );
 }
 
 export default App;
