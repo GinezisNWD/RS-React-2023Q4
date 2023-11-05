@@ -25,6 +25,12 @@ export function ProductsPage() {
       fetchProducts();
       return;
     }
+    if (params.page && params.page !== undefined && params.page !== undefined) {
+      const pageNumber = params.page;
+      const fixedPageNumber = pageNumber.replace('page=', '');
+      fetchProducts(fixedPageNumber);
+      return;
+    }
 
     if (searchTerm === null) {
       const savedSearchTerm = localStorage.getItem('searchTerm');
@@ -32,14 +38,18 @@ export function ProductsPage() {
       return;
     }
     fetchProducts();
-  }, [searchTerm]);
+  }, [searchTerm, params]);
 
-  async function fetchProducts() {
+  async function fetchProducts(optionalParam?: string) {
     setIsLoading(true);
     let url = 'https://api.punkapi.com/v2/beers?page=1&per_page=25';
     if (searchTerm) {
       url = `https://api.punkapi.com/v2/beers?&beer_name=${searchTerm}`;
     }
+    if (optionalParam) {
+      url = `https://api.punkapi.com/v2/beers?page=${optionalParam}&per_page=25`;
+    }
+
     const response = await fetch(url);
     const data = await response.json();
     setProducts(data);
@@ -55,7 +65,7 @@ export function ProductsPage() {
     localStorage.setItem('searchTerm', newSearchTerm);
 
     if (newSearchTerm !== '') {
-      navigate(`/products/beer_name=${newSearchTerm}`);
+      navigate(`/beer_name=${newSearchTerm}`);
     } else if (newSearchTerm === '') {
       navigate(`/`);
     }
