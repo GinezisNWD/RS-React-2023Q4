@@ -3,7 +3,7 @@ import { Loader } from '../components/Loader/Loader';
 import { Products } from '../components/Products/Products';
 import { Search } from '../components/Search/Search';
 import { iProduct } from '../components/Product/Product';
-
+import { Navbar } from '../components/Navbar/Navbar';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export function ProductsPage() {
@@ -73,6 +73,7 @@ export function ProductsPage() {
 
   return (
     <>
+      <Navbar />
       <Search
         onSumbmit={handleSearch}
         searchTerm={searchTerm as string}

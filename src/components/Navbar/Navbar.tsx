@@ -1,8 +1,17 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 export function Navbar() {
   const [currentPage, setCurrentPage] = useState(1);
+
+  const params = useParams();
+
+  useEffect(() => {
+    if (params.page !== undefined) {
+      const newCurrentPage = Number(params.page.split('=')[1]);
+      setCurrentPage(newCurrentPage);
+    }
+  }, []);
 
   return (
     <div
