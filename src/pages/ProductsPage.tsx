@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Loader } from '../components/Loader/Loader';
 import { Products } from '../components/Products/Products';
 import { Search } from '../components/Search/Search';
 import { iProduct } from '../components/Product/Product';
 import { Navbar } from '../components/Navbar/Navbar';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { AppContext, IAppContext } from '../context/App';
 
 export function ProductsPage() {
-  const [searchTerm, setSearchTerm] = useState<null | string>(null);
+  const { searchTerm, setSearchTerm } = useContext(AppContext) as IAppContext;
   const [products, setProducts] = useState<iProduct[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const params = useParams();
 
+  const params = useParams();
   useEffect(() => {
     if (
       params.beer_name !== '' &&
@@ -25,20 +25,18 @@ export function ProductsPage() {
       fetchProducts();
       return;
     }
-    if (params.page && params.page !== undefined && params.page !== undefined) {
+    if (
+      params.page
+      //  && params.page !== undefined && params.page !== undefined
+    ) {
       const pageNumber = params.page;
       const fixedPageNumber = pageNumber.replace('page=', '');
       fetchProducts(fixedPageNumber);
       return;
     }
 
-    if (searchTerm === null) {
-      const savedSearchTerm = localStorage.getItem('searchTerm');
-      setSearchTerm(savedSearchTerm || '');
-      return;
-    }
     fetchProducts();
-  }, [searchTerm, params]);
+  }, [params]);
 
   async function fetchProducts(optionalParam?: string) {
     setIsLoading(true);
@@ -56,28 +54,10 @@ export function ProductsPage() {
     setIsLoading(false);
   }
 
-  function handleSearch(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const form = event.currentTarget;
-    const formData = new FormData(form);
-    const newSearchTerm = formData.get('search') as string;
-    setSearchTerm(newSearchTerm.trim());
-    localStorage.setItem('searchTerm', newSearchTerm);
-
-    if (newSearchTerm !== '') {
-      navigate(`/beer_name=${newSearchTerm}`);
-    } else if (newSearchTerm === '') {
-      navigate(`/`);
-    }
-  }
-
   return (
     <>
       <Navbar />
-      <Search
-        onSumbmit={handleSearch}
-        searchTerm={searchTerm as string}
-      ></Search>
+      <Search />
       {isLoading && <Loader></Loader>}
       <Products products={products}></Products>
     </>
