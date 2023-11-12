@@ -13,7 +13,8 @@
     "prepare": "husky install",
     "lint-staged": "lint-staged",
     "deploy": "gh-pages -d ./dist -e ./",
-    "test": "vitest"
+    "test": "vitest",
+    "coverage": "npx vitest run --coverage"
   },
   "dependencies": {
     "react": "^18.2.0",
