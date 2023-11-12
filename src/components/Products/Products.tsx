@@ -1,11 +1,7 @@
-interface ProductsProps {
-  products: ProductProps[];
-}
+import { Product, iProduct } from '../Product/Product';
 
-interface ProductProps {
-  name: string;
-  description: string;
-  image_url: string;
+interface ProductsProps {
+  products: iProduct[];
 }
 
 export function Products({ products }: ProductsProps) {
@@ -13,16 +9,8 @@ export function Products({ products }: ProductsProps) {
     <div className="products">
       {products.length === 0 && <h2>По вашему запросу ничего не найдено</h2>}
 
-      {products.map((product: ProductProps) => (
-        <div className="products__item" key={product.name}>
-          <h3>{product.name}</h3>
-          <img
-            className="products__img"
-            src={product.image_url}
-            alt={product.name}
-          />
-          <p className="products__desc">{product.description}</p>
-        </div>
+      {products.map((product: iProduct) => (
+        <Product key={product.name} product={product} />
       ))}
     </div>
   );
