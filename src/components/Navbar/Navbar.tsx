@@ -1,14 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { navigationSlice } from '../../store/reducers/NavigationSlice';
 
 export function Navbar() {
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [currentPage, setCurrentPage] = useState(1);
+
+  const dispatch = useAppDispatch();
+  const { page: currentPage } = useAppSelector(
+    (state) => state.navigationReducer
+  );
+
+  const setCurrentPage = (pageNumber: number) => {
+    dispatch(navigationSlice.actions.pageChange(pageNumber));
+  };
 
   const params = useParams();
+  console.log(params);
 
   useEffect(() => {
     if (params.page !== undefined) {
       const newCurrentPage = Number(params.page.split('=')[1]);
+      console.log;
       setCurrentPage(newCurrentPage);
     }
   }, []);

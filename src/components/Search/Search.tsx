@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AppContext, IAppContext } from '../../context/App';
 
 export function Search() {
-  const { searchTerm, setSearchTerm } = useContext(AppContext) as IAppContext;
+  const [searchTerm, setSearchTerm] = useState('');
 
   const navigate = useNavigate();
 
