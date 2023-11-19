@@ -1,26 +1,31 @@
-import { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useCallback, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { navigationSlice } from '../../store/reducers/NavigationSlice';
 
 export function Navbar() {
+  const [searchParams] = useSearchParams();
   const dispatch = useAppDispatch();
-  const { page: currentPage } = useAppSelector(
+  const { page: currentPage, per_page } = useAppSelector(
     (state) => state.navigationReducer
   );
+  const maxPage = Math.ceil(325 / per_page);
 
-  const setCurrentPage = (pageNumber: number) => {
-    dispatch(navigationSlice.actions.pageChange(pageNumber));
-  };
-
-  const params = useParams();
+  const setCurrentPage = useCallback(
+    (pageNumber: number) => {
+      dispatch(navigationSlice.actions.pageChange(pageNumber));
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
-    if (params.page !== undefined) {
-      const newCurrentPage = Number(params.page.split('=')[1]);
-      setCurrentPage(newCurrentPage);
-    }
-  }, []);
+    const newCurrentPage = Number(searchParams.get('page'));
+    const validPage = newCurrentPage < 1 ? currentPage : newCurrentPage;
+    setCurrentPage(validPage);
+    const newPerPage = Number(searchParams.get('per-page'));
+    const validPerPage = newPerPage < 1 ? per_page : newPerPage;
+    dispatch(navigationSlice.actions.per_pageChange(validPerPage));
+  }, [searchParams, setCurrentPage, dispatch]);
 
   return (
     <div
@@ -42,7 +47,7 @@ export function Navbar() {
       >
         <Link
           onClick={() => setCurrentPage(1)}
-          to={`/products/page=${1}`}
+          to={`/?page=${1}&per-page=${per_page}`}
           style={{
             pointerEvents: currentPage <= 1 ? 'none' : 'auto',
             color: currentPage <= 1 ? 'gray' : '#646cff',
@@ -52,7 +57,7 @@ export function Navbar() {
         </Link>
         <Link
           onClick={() => setCurrentPage(currentPage - 1)}
-          to={`/products/page=${currentPage - 1}`}
+          to={`/?page=${currentPage - 1}&per-page=${per_page}`}
           style={{
             pointerEvents: currentPage <= 1 ? 'none' : 'auto',
             color: currentPage <= 1 ? 'gray' : '#646cff',
@@ -62,7 +67,7 @@ export function Navbar() {
         </Link>
         <Link
           onClick={() => setCurrentPage(currentPage + 1)}
-          to={`/products/page=${currentPage + 1}`}
+          to={`/?page=${currentPage + 1}&per-page=${per_page}`}
           style={{
             pointerEvents: currentPage >= 13 ? 'none' : 'auto',
             color: currentPage >= 13 ? 'gray' : '#646cff',
@@ -71,11 +76,11 @@ export function Navbar() {
           next
         </Link>
         <Link
-          onClick={() => setCurrentPage(13)}
-          to={`/products/page=${13}`}
+          onClick={() => setCurrentPage(maxPage)}
+          to={`/?page=${maxPage}&per-page=${per_page}`}
           style={{
-            pointerEvents: currentPage >= 13 ? 'none' : 'auto',
-            color: currentPage >= 13 ? 'gray' : '#646cff',
+            pointerEvents: currentPage >= maxPage ? 'none' : 'auto',
+            color: currentPage >= maxPage ? 'gray' : '#646cff',
           }}
         >
           last

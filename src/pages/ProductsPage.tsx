@@ -7,14 +7,14 @@ import { productsApi } from '../services/ProductService';
 import { useAppSelector } from '../hooks/redux';
 
 export function ProductsPage() {
-  const { page, per_page } = useAppSelector((state) => state.navigationReducer);
-  const {
-    data: products,
-    error,
-    isLoading,
-  } = productsApi.useFetchAllProductsQuery({ page, per_page });
-
-  if (error) return <h2>Произошла ошибка</h2>;
+  const { page, per_page, beer_name } = useAppSelector(
+    (state) => state.navigationReducer
+  );
+  const { data: products, isLoading } = productsApi.useFetchAllProductsQuery({
+    page,
+    per_page,
+    beer_name,
+  });
 
   return (
     <>
