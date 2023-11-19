@@ -4,8 +4,6 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { navigationSlice } from '../../store/reducers/NavigationSlice';
 
 export function Navbar() {
-  // const [currentPage, setCurrentPage] = useState(1);
-
   const dispatch = useAppDispatch();
   const { page: currentPage } = useAppSelector(
     (state) => state.navigationReducer
@@ -16,12 +14,10 @@ export function Navbar() {
   };
 
   const params = useParams();
-  console.log(params);
 
   useEffect(() => {
     if (params.page !== undefined) {
       const newCurrentPage = Number(params.page.split('=')[1]);
-      console.log;
       setCurrentPage(newCurrentPage);
     }
   }, []);
