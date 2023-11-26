@@ -10,7 +10,7 @@
   text-align: center;
 }
 
-.search {
+/* .search {
   margin: 0 0 20px 0;
 }
 
@@ -18,16 +18,16 @@
   display: flex;
   justify-content: center;
   gap: 20px;
-}
+} */
 
-.products {
+/* .products {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
-}
+} */
 
-.products__item {
+/* .products__item {
   flex: 0 0 22%;
   min-width: 232px;
   border: 2px solid black;
@@ -51,4 +51,4 @@
 .products__desc::-webkit-scrollbar-thumb {
   background-color: #bfbfbf;
   border-radius: 20px;
-}
+} */

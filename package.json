@@ -14,11 +14,15 @@
     "lint-staged": "lint-staged",
     "deploy": "gh-pages -d ./dist -e ./",
     "test": "vitest",
-    "coverage": "npx vitest run --coverage"
+    "coverage": "npx vitest run --coverage",
+    "next": "next dev",
+    "next:build": "next build",
+    "start": "next start"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.6.2",
+    "next": "^14.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.3",

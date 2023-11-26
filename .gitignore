@@ -25,3 +25,5 @@ dist-ssr
 
 #temp files
 temp
+.next
+/.env
