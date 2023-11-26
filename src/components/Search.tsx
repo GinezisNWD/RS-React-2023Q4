@@ -19,7 +19,6 @@ export function Search() {
       return;
     }
     router.push(`/search/${searchTerm}`);
-    console.log(searchTerm);
   }
   return (
     <div className={styles.container}>

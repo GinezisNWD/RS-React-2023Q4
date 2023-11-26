@@ -19,8 +19,6 @@ export async function getServerSideProps({ params }: GetServerSidePropsContext) 
 
   const responce = await fetch(`https://api.punkapi.com/v2/beers?page=${params.page}&per_page=25`)
   const products = await responce.json()
-  console.log(products)
-
 
   return {
     props: { products }

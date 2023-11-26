@@ -17,10 +17,10 @@ export function MainContainer({ children, title }: MainContainerProps) {
 
       <div className="navbar">
         <Link className="link" href={'/'}>
-          Главная
+          Home
         </Link>
         <Link className="link" href={'/products'}>
-          Продукты
+          Products
         </Link>
       </div>
       <style>

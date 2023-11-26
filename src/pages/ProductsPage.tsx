@@ -20,10 +20,7 @@ export function ProductsPage() {
     beer_name,
   });
 
-  useEffect(() => {
-    // Этот коммент для проверяющих, не нашел как прикрутить задержку, апишка быстро отрабатывает
-    console.log(isLoading && isFetching && 'loading');
-  }, [isLoading, isFetching]);
+  useEffect(() => {}, [isLoading, isFetching]);
   return (
     <>
       <Navbar />
