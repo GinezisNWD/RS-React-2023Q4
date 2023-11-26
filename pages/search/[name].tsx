@@ -12,7 +12,6 @@ interface SearchProps {
 export function Search({ products }: SearchProps) {
   return (
     <MainContainer title='Products'>
-      Это страница поиска
       <Products products={products} />
     </MainContainer>
   )

@@ -33,7 +33,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: grey;
+  background-color: rgb(28, 247, 247) (0, 255, 242);
   cursor: pointer;
   transition: border-color 0.25s;
 }

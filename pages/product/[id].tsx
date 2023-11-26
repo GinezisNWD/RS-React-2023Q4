@@ -8,9 +8,6 @@ interface ProductPageProps {
 }
 
 export function ProductPage({ product }: ProductPageProps) {
-  console.log(product)
-
-
   return (
     <MainContainer title={product.name} >
       <img src={product.image_url} alt={product.name} />

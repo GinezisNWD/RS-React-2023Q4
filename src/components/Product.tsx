@@ -10,7 +10,7 @@ interface ProductProps {
 export function Product({ product }: ProductProps) {
   return (
     <div className={styles.item} key={product.name}>
-      <Link className={styles.link} href={`/products/${product.id}`}>
+      <Link className={styles.link} href={`/product/${product.id}`}>
         <h3>{product.name}</h3>
         <img
           className={styles.img}
