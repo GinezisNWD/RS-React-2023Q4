@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import styles from '../styles/Pagination.module.css';
 
 export function Pagination() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export function Pagination() {
     <div>
       <div
         style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}
-        className="pagination"
+        className={styles.container}
       >
         <button
           onClick={() => {
