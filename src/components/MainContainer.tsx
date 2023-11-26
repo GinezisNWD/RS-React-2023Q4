@@ -2,7 +2,6 @@ import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Search } from './Search';
-import Pagination from './Pagination';
 
 interface MainContainerProps {
   children: React.ReactNode;
@@ -41,7 +40,6 @@ export function MainContainer({ children, title }: MainContainerProps) {
       </style>
 
       <Search />
-      <Pagination />
 
       <div>{children}</div>
     </>

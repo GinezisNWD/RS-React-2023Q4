@@ -1,12 +1,13 @@
 import React from 'react'
 import { GetServerSidePropsContext } from 'next'
 import { MainContainer } from '../../src/components/MainContainer'
-
 import { Products } from '../../src/components/Products'
+import Pagination from '../../src/components/Pagination';
 
 export function Page({ products }) {
   return (
     <MainContainer title='Products'>
+      <Pagination />
       <Products products={products}></Products>
     </MainContainer>
   )

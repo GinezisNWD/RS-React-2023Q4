@@ -1,11 +1,14 @@
 import React from 'react'
 import { MainContainer } from '../src/components/MainContainer'
 import { Products } from '../src/components/Products'
+import Pagination from '../src/components/Pagination';
 
 
 export function ProductsPage({ products }) {
   return (
     <MainContainer title='Products'>
+
+      <Pagination />
       <Products products={products}></Products>
     </MainContainer>
   )
