@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
-import { iProduct } from '../models/IProduct';
+import IProduct from '../models/IProduct';
 
 type fetchAllProductsParams = {
   page: number;
@@ -11,7 +11,7 @@ export const productsApi = createApi({
   reducerPath: 'productAPI',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://api.punkapi.com/v2' }),
   endpoints: (build) => ({
-    fetchAllProducts: build.query<iProduct[], fetchAllProductsParams>({
+    fetchAllProducts: build.query<IProduct[], fetchAllProductsParams>({
       query: ({ page, per_page, beer_name }) => {
         return beer_name
           ? {

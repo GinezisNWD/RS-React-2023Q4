@@ -1,9 +1,9 @@
-import { iProduct } from '../../models/IProduct';
+import IProduct from '../../models/IProduct';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchProducts } from './ActionCreators';
 
 interface ProductsState {
-  products: iProduct[];
+  products: IProduct[];
   isLoading: boolean;
   error: string;
 }
@@ -24,7 +24,7 @@ export const productsSlice = createSlice({
     },
     [fetchProducts.fulfilled.type]: (
       state,
-      action: PayloadAction<iProduct[]>
+      action: PayloadAction<IProduct[]>
     ) => {
       state.error = '';
       state.products = action.payload;

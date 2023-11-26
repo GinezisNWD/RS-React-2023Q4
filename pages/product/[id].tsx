@@ -1,10 +1,10 @@
 import React from 'react'
 import { GetServerSidePropsContext } from 'next'
-import iProduct from '../../src/models/IProduct'
 import { MainContainer } from '../../src/components/MainContainer'
+import IProduct from '../../src/models/IProduct'
 
 interface ProductPageProps {
-  product: iProduct
+  product: IProduct
 }
 
 export function ProductPage({ product }: ProductPageProps) {

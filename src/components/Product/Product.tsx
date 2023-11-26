@@ -1,11 +1,7 @@
-export interface iProduct {
-  name: string;
-  description: string;
-  image_url: string;
-}
+import IProduct from '../../models/IProduct';
 
 interface ProductProps {
-  product: iProduct;
+  product: IProduct;
 }
 
 export function Product({ product }: ProductProps) {

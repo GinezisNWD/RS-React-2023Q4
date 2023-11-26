@@ -1,7 +1,8 @@
-import { Product, iProduct } from '../Product/Product';
+import IProduct from '../../models/IProduct';
+import { Product } from '../Product/Product';
 
 interface ProductsProps {
-  products: iProduct[];
+  products: IProduct[];
 }
 
 export function Products({ products }: ProductsProps) {
@@ -9,7 +10,7 @@ export function Products({ products }: ProductsProps) {
     <div className="products">
       {products.length === 0 && <h2>По вашему запросу ничего не найдено</h2>}
 
-      {products.map((product: iProduct) => (
+      {products.map((product: IProduct) => (
         <Product key={product.name} product={product} />
       ))}
     </div>
